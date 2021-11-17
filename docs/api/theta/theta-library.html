@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="theta library API docs, for the Dart programming language.">
+  <title>theta library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../static-assets/styles.css?v1">
+  <link rel="icon" href="../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../"
+      data-using-base-href="false">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../index.html">theta</a></li>
+    <li class="self-crumb">theta library</li>
+  </ol>
+  <div class="self-name">theta</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+
+  <div id="dartdoc-main-content" class="main-content">
+      <div>
+<h1><span class="kind-library">theta</span> library 
+    <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
+ 
+</h1></div>
+
+    
+<section class="desc markdown">
+  <p>Support for RICOH THETA API testing.</p>
+<p>More dartdocs go here.</p>
+</section>
+
+
+    <section class="summary offset-anchor" id="classes">
+      <h2>Classes</h2>
+
+      <dl>
+        <dt id="Preview">
+  <span class="name "><a href="../theta/Preview-class.html">Preview</a></span> 
+
+</dt>
+<dd>
+   
+</dd>
+
+        <dt id="Sc2Preview">
+  <span class="name "><a href="../theta/Sc2Preview-class.html">Sc2Preview</a></span> 
+
+</dt>
+<dd>
+  The SC2 has problems with dio, which is used for HTTP connections
+this class uses the http package instead of dio.
+there is a known problem with an error message when closing
+the stream, but the application appears to work. 
+</dd>
+
+        <dt id="ThetaBase">
+  <span class="name "><a href="../theta/ThetaBase-class.html">ThetaBase</a></span> 
+
+</dt>
+<dd>
+   
+</dd>
+
+      </dl>
+    </section>
+
+
+
+    <section class="summary offset-anchor" id="constants">
+      <h2>Constants</h2>
+
+      <dl class="properties">
+        <dt id="emptyBody" class="constant">
+  <span class="name "><a href="../theta/emptyBody-constant.html">emptyBody</a></span>
+  <span class="signature">&#8594; const <a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span>
+  
+
+</dt>
+<dd>
+   
+  
+
+  <div>
+    <span class="signature"><code>{}</code></span>
+  </div>
+</dd>
+
+      </dl>
+    </section>
+
+
+    <section class="summary offset-anchor" id="functions">
+      <h2>Functions</h2>
+
+      <dl class="callables">
+        <dt id="checkForIdle" class="callable">
+  <span class="name"><a href="../theta/checkForIdle.html">checkForIdle</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  after startCapture
+Uses state to check for the camera readiness
+to get around a limitation in the SC2 API. 
+  
+
+</dd>
+
+        <dt id="command" class="callable">
+  <span class="name"><a href="../theta/command.html">command</a></span><span class="signature">(<wbr><span class="parameter" id="command-param-baseName"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">baseName</span>, </span><span class="parameter" id="command-param-parameters">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">parameters</span> = <span class="default-value">emptyBody</span>, </span><span class="parameter" id="command-param-responseType"><span class="type-annotation"><a href="https://pub.dev/documentation/dio/4.0.0/dio/ResponseType-class.html">ResponseType</a></span> <span class="parameter-name">responseType</span> = <span class="default-value">ResponseType.json</span>, </span><span class="parameter" id="command-param-additionalHeaders"><span class="type-annotation">dynamic</span> <span class="parameter-name">additionalHeaders</span> = <span class="default-value">emptyBody</span>}</span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+  baseName is 'takePicture', not 'camera.takePicture'
+responseType default is ResponseType.json
+use ResponseType.stream if using camara.getLivePreview
+and the response is a stream 
+  
+
+</dd>
+
+        <dt id="commandStatus" class="callable">
+  <span class="name"><a href="../theta/commandStatus.html">commandStatus</a></span><span class="signature">(<wbr><span class="parameter" id="commandStatus-param-id"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">id</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  status of command. Returns "done", "inProgress", or "error"
+example of use: <a href="../theta/commandStatus.html">[...]</a>
+  
+
+</dd>
+
+        <dt id="getLastFileInfo" class="callable">
+  <span class="name"><a href="../theta/getLastFileInfo.html">getLastFileInfo</a></span><span class="signature">(<wbr><span class="parameter" id="getLastFileInfo-param-fileType">{<span class="type-annotation">dynamic</span> <span class="parameter-name">fileType</span> = <span class="default-value">&#39;all&#39;</span>}</span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+   
+  
+
+</dd>
+
+        <dt id="getLastImageUrl" class="callable">
+  <span class="name"><a href="../theta/getLastImageUrl.html">getLastImageUrl</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+   
+  
+
+</dd>
+
+        <dt id="getLastVideoUrl" class="callable">
+  <span class="name"><a href="../theta/getLastVideoUrl.html">getLastVideoUrl</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+   
+  
+
+</dd>
+
+        <dt id="getLivePreviewOld" class="callable">
+  <span class="name"><a href="../theta/getLivePreviewOld.html">getLivePreviewOld</a></span><span class="signature">(<wbr><span class="parameter" id="getLivePreviewOld-param-controller"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-async/StreamController-class.html">StreamController</a></span> <span class="parameter-name">controller</span>, </span><span class="parameter" id="getLivePreviewOld-param-frames">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">frames</span> = <span class="default-value">5</span>, </span><span class="parameter" id="getLivePreviewOld-param-frameDelay"><span class="type-annotation">dynamic</span> <span class="parameter-name">frameDelay</span> = <span class="default-value">34</span>}</span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+   
+  
+
+</dd>
+
+        <dt id="getSc2Options" class="callable">
+  <span class="name"><a href="../theta/getSc2Options.html">getSc2Options</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Be aware that options not supported by SC2 will cause this program to crash.
+For a list of available APIs: <a href="https://api.ricoh/docs/theta-web-api-v2.1/">https://api.ricoh/docs/theta-web-api-v2.1/</a>
+For additional help or if you notice errors in the API documentation,
+please use <a href="https://www.theta360.guide">https://www.theta360.guide</a>
+18 options can't be used with SC2 <a href="../theta/getSc2Options.html">[...]</a>
+  
+
+</dd>
+
+        <dt id="getZ1Options" class="callable">
+  <span class="name"><a href="../theta/getZ1Options.html">getZ1Options</a></span><span class="signature">(<wbr>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  Be aware that options not supported by Z1 will cause this program to crash.
+For a list of available APIs: <a href="https://api.ricoh/docs/theta-web-api-v2.1/">https://api.ricoh/docs/theta-web-api-v2.1/</a>
+For additional help or if you notice errors in the API documentation,
+please use <a href="https://www.theta360.guide">https://www.theta360.guide</a>
+6 can't be used with Z1 <a href="../theta/getZ1Options.html">[...]</a>
+  
+
+</dd>
+
+        <dt id="prettify" class="callable">
+  <span class="name"><a href="../theta/prettify.html">prettify</a></span><span class="signature">(<wbr><span class="parameter" id="prettify-param-data"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/Map-class.html">Map</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>, <span class="type-parameter">dynamic</span>&gt;</span></span> <span class="parameter-name">data</span></span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>
+  </span>
+  
+
+</dt>
+<dd>
+   
+  
+
+</dd>
+
+        <dt id="sc2ThumbGetBytes" class="callable">
+  <span class="name"><a href="../theta/sc2ThumbGetBytes.html">sc2ThumbGetBytes</a></span><span class="signature">(<wbr><span class="parameter" id="sc2ThumbGetBytes-param-number">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">number</span> = <span class="default-value">5</span>}</span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+   
+  
+
+</dd>
+
+        <dt id="setOption" class="callable">
+  <span class="name"><a href="../theta/setOption.html">setOption</a></span><span class="signature">(<wbr><span class="parameter" id="setOption-param-name">{<span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span> <span class="parameter-name">name</span>, </span><span class="parameter" id="setOption-param-value"><span>required</span> <span class="type-annotation">dynamic</span> <span class="parameter-name">value</span>}</span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+  set single option 
+  
+
+</dd>
+
+        <dt id="thumbGetBytes" class="callable">
+  <span class="name"><a href="../theta/thumbGetBytes.html">thumbGetBytes</a></span><span class="signature">(<wbr><span class="parameter" id="thumbGetBytes-param-number">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">number</span> = <span class="default-value">5</span>}</span>)
+    <span class="returntype parameter">&#8594; <a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/List-class.html">List</a><span class="signature">&lt;<wbr><span class="type-parameter"><a href="https://api.flutter.dev/flutter/dart-core/String-class.html">String</a></span>&gt;</span></span>&gt;</span></span>
+  </span>
+  
+
+</dt>
+<dd>
+   
+  
+
+</dd>
+
+      </dl>
+    </section>
+
+
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+  <li><a href="../index.html">theta</a></li>
+  <li class="self-crumb">theta library</li>
+</ol>
+
+
+    <h5><span class="package-name">theta</span> <span class="package-kind">package</span></h5>
+    <ol>
+      <li class="section-title">Libraries</li>
+      <li><a href="../theta/theta-library.html">theta</a></li>
+</ol>
+
+  </div>
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+    <h5>theta library</h5>
+    <ol>
+  <li class="section-title"><a href="../theta/theta-library.html#classes">Classes</a></li>
+  <li><a href="../theta/Preview-class.html">Preview</a></li>
+  <li><a href="../theta/Sc2Preview-class.html">Sc2Preview</a></li>
+  <li><a href="../theta/ThetaBase-class.html">ThetaBase</a></li>
+
+
+
+  <li class="section-title"><a href="../theta/theta-library.html#constants">Constants</a></li>
+  <li><a href="../theta/emptyBody-constant.html">emptyBody</a></li>
+
+
+  <li class="section-title"><a href="../theta/theta-library.html#functions">Functions</a></li>
+  <li><a href="../theta/checkForIdle.html">checkForIdle</a></li>
+  <li><a href="../theta/command.html">command</a></li>
+  <li><a href="../theta/commandStatus.html">commandStatus</a></li>
+  <li><a href="../theta/getLastFileInfo.html">getLastFileInfo</a></li>
+  <li><a href="../theta/getLastImageUrl.html">getLastImageUrl</a></li>
+  <li><a href="../theta/getLastVideoUrl.html">getLastVideoUrl</a></li>
+  <li><a href="../theta/getLivePreviewOld.html">getLivePreviewOld</a></li>
+  <li><a href="../theta/getSc2Options.html">getSc2Options</a></li>
+  <li><a href="../theta/getZ1Options.html">getZ1Options</a></li>
+  <li><a href="../theta/prettify.html">prettify</a></li>
+  <li><a href="../theta/sc2ThumbGetBytes.html">sc2ThumbGetBytes</a></li>
+  <li><a href="../theta/setOption.html">setOption</a></li>
+  <li><a href="../theta/thumbGetBytes.html">thumbGetBytes</a></li>
+
+
+
+</ol>
+
+  </div><!--/sidebar-offcanvas-right-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    theta
+      0.3.0
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../static-assets/highlight.pack.js?v1"></script>
+<script src="../static-assets/script.js?v1"></script>
+
+
+
+</body>
+
+</html>
+

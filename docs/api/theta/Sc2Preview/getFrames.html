@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the getFrames method from the Sc2Preview class, for the Dart programming language.">
+  <title>getFrames method - Sc2Preview class - theta library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../../static-assets/styles.css?v1">
+  <link rel="icon" href="../../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../../"
+      data-using-base-href="false">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../../index.html">theta</a></li>
+    <li><a href="../../theta/theta-library.html">theta</a></li>
+    <li><a href="../../theta/Sc2Preview-class.html">Sc2Preview</a></li>
+    <li class="self-crumb">getFrames method</li>
+  </ol>
+  <div class="self-name">getFrames</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+
+  <div id="dartdoc-main-content" class="main-content">
+      <div>
+<h1><span class="kind-method">getFrames</span> method 
+    <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
+</h1></div>
+
+    <section class="multi-line-signature">
+      
+
+<span class="returntype">void</span>
+<span class="name ">getFrames</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="getFrames-param-frames">{<span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">frames</span>, </span></li>
+<li><span class="parameter" id="getFrames-param-frameDelay"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">frameDelay</span>, </span></li>
+<li><span class="parameter" id="getFrames-param-dataStream"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-async/Stream-class.html">Stream</a></span> <span class="parameter-name">dataStream</span>, </span></li>
+<li><span class="parameter" id="getFrames-param-controller"><span>required</span> <span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-async/StreamController-class.html">StreamController</a></span> <span class="parameter-name">controller</span>}</span></li>
+</ol>)
+
+      <div class="features">override</div>
+
+    </section>
+    
+<section class="desc markdown">
+  <p>receive a data stream from the camera
+parse the individual JPEG frames
+add each stream to the controller stream</p>
+</section>
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">static void getFrames(
+    {required int frames,
+    required int frameDelay,
+    required Stream dataStream,
+    required StreamController controller}) {
+  List&lt;int&gt; buffer = [];
+  int startIndex = -1;
+  int endIndex = -1;
+  int frameCount = 0;
+
+  &#47;&#47; frame delay useful for testing SC2. milliseconds
+  Stopwatch frameTimer = Stopwatch();
+  frameTimer.start();
+  StreamSubscription? subscription;
+
+  subscription = dataStream.listen((chunkOfStream) {
+    if (frameCount &gt; frames &amp;&amp; frames != -1 &amp;&amp; keepRunning) {
+      if (subscription != null) {
+        subscription.cancel();
+        &#47;&#47; print(&#39;closing controller&#39;);
+        controller.close();
+        keepRunning = false;
+        &#47;&#47; print(&#39;closing client&#39;);
+        client.close();
+      }
+    }
+    if (keepRunning) {
+      buffer.addAll(chunkOfStream);
+      &#47;&#47; print(&#39;current chunk of stream is ${chunkOfStream.length} bytes long&#39;);
+
+      for (var i = 1; i &lt; chunkOfStream.length; i++) {
+        if (chunkOfStream[i - 1] == 0xff &amp;&amp; chunkOfStream[i] == 0xd8) {
+          startIndex = i - 1;
+        }
+        if (chunkOfStream[i - 1] == 0xff &amp;&amp; chunkOfStream[i] == 0xd9) {
+          endIndex = buffer.length;
+        }
+
+        if (startIndex != -1 &amp;&amp; endIndex != -1) {
+          var frame = buffer.sublist(startIndex, endIndex);
+          if (frameTimer.elapsedMilliseconds &gt; frameDelay) {
+            if (frameCount &gt; 0) {
+              controller.add(frame);
+
+              print(&#39;framecount $frameCount&#39;);
+              frameTimer.reset();
+            }
+
+            frameCount++;
+          }
+          &#47;&#47; print(frame);
+          startIndex = -1;
+          endIndex = -1;
+          buffer = [];
+        }
+      }
+    } &#47;&#47; end keepRunning
+  });
+}</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+  <li><a href="../../index.html">theta</a></li>
+  <li><a href="../../theta/theta-library.html">theta</a></li>
+  <li><a href="../../theta/Sc2Preview-class.html">Sc2Preview</a></li>
+  <li class="self-crumb">getFrames method</li>
+</ol>
+
+
+    <h5>Sc2Preview class</h5>
+    <ol>
+
+    <li class="section-title"><a href="../../theta/Sc2Preview-class.html#constructors">Constructors</a></li>
+    <li><a href="../../theta/Sc2Preview/Sc2Preview.html">Sc2Preview</a></li>
+
+
+    <li class="section-title inherited">
+      <a href="../../theta/Sc2Preview-class.html#instance-properties">Properties</a>
+    </li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/hashCode.html">hashCode</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/runtimeType.html">runtimeType</a></li>
+
+    <li class="section-title inherited"><a href="../../theta/Sc2Preview-class.html#instance-methods">Methods</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/noSuchMethod.html">noSuchMethod</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/toString.html">toString</a></li>
+
+    <li class="section-title inherited"><a href="../../theta/Sc2Preview-class.html#operators">Operators</a></li>
+    <li class="inherited"><a href="https://api.flutter.dev/flutter/dart-core/Object/operator_equals.html">operator ==</a></li>
+
+
+    <li class="section-title"><a href="../../theta/Sc2Preview-class.html#static-properties">Static properties</a></li>
+    <li><a href="../../theta/Sc2Preview/client.html">client</a></li>
+    <li><a href="../../theta/Sc2Preview/keepRunning.html">keepRunning</a></li>
+
+    <li class="section-title"><a href="../../theta/Sc2Preview-class.html#static-methods">Static methods</a></li>
+    <li><a href="../../theta/Sc2Preview/getFrames.html">getFrames</a></li>
+    <li><a href="../../theta/Sc2Preview/getLivePreview.html">getLivePreview</a></li>
+    <li><a href="../../theta/Sc2Preview/stopPreview.html">stopPreview</a></li>
+
+</ol>
+
+  </div><!--/.sidebar-offcanvas-->
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    theta
+      0.3.0
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../../static-assets/highlight.pack.js?v1"></script>
+<script src="../../static-assets/script.js?v1"></script>
+
+
+
+</body>
+
+</html>
+

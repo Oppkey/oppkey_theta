@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="description" content="API docs for the getLivePreviewOld function from the theta library, for the Dart programming language.">
+  <title>getLivePreviewOld function - theta library - Dart API</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <link rel="stylesheet" href="../static-assets/github.css?v1">
+  <link rel="stylesheet" href="../static-assets/styles.css?v1">
+  <link rel="icon" href="../static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href="../"
+      data-using-base-href="false">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="../index.html">theta</a></li>
+    <li><a href="../theta/theta-library.html">theta</a></li>
+    <li class="self-crumb">getLivePreviewOld function</li>
+  </ol>
+  <div class="self-name">getLivePreviewOld</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+
+  <div id="dartdoc-main-content" class="main-content">
+      <div>
+<h1><span class="kind-function">getLivePreviewOld</span> function 
+    <a href="https://dart.dev/null-safety" class="feature feature-null-safety" title="Supports the null safety language feature.">Null safety</a>
+ 
+</h1></div>
+
+    <section class="multi-line-signature">
+        
+
+<span class="returntype"><a href="https://api.flutter.dev/flutter/dart-async/Future-class.html">Future</a><span class="signature">&lt;<wbr><span class="type-parameter">void</span>&gt;</span></span>
+<span class="name ">getLivePreviewOld</span>(<wbr><ol class="parameter-list"><li><span class="parameter" id="getLivePreviewOld-param-controller"><span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-async/StreamController-class.html">StreamController</a></span> <span class="parameter-name">controller</span>, </span></li>
+<li><span class="parameter" id="getLivePreviewOld-param-frames">{<span class="type-annotation"><a href="https://api.flutter.dev/flutter/dart-core/int-class.html">int</a></span> <span class="parameter-name">frames</span> = <span class="default-value">5</span>, </span></li>
+<li><span class="parameter" id="getLivePreviewOld-param-frameDelay"><span class="type-annotation">dynamic</span> <span class="parameter-name">frameDelay</span> = <span class="default-value">34</span>}</span></li>
+</ol>)
+
+    </section>
+    
+
+
+    
+<section class="summary source-code" id="source">
+  <h2><span>Implementation</span></h2>
+  <pre class="language-dart"><code class="language-dart">Future&lt;void&gt; getLivePreviewOld(StreamController controller,
+    {int frames = 5, frameDelay = 34}) async {
+  const livePreviewPayload = {&#39;name&#39;: &#39;camera.getLivePreview&#39;};
+  Map&lt;String, dynamic&gt; additionalHeaders = {
+    &#39;Accept&#39;: &#39;multipart&#47;x-mixed-replace&#39;
+  };
+  var response = await postBasic(
+      payload: livePreviewPayload,
+      responseType: ResponseType.stream,
+      headersAddition: additionalHeaders);
+
+  Stream dataStream = response.data.stream;
+
+  List&lt;int&gt; buffer = [];
+  int startIndex = -1;
+  int endIndex = -1;
+  int frameCount = 0;
+  bool keepRunning = true;
+
+  &#47;&#47; frame delay useful for testing SC2. milliseconds
+  Stopwatch frameTimer = Stopwatch();
+  frameTimer.start();
+
+  StreamSubscription? subscription;
+  subscription = dataStream.listen((chunkOfStream) {
+    if (frameCount &gt; frames) {
+      if (subscription != null) {
+        subscription.cancel();
+        keepRunning = false;
+        frameTimer.stop();
+        controller.close();
+      }
+    }
+    if (keepRunning) {
+      buffer.addAll(chunkOfStream);
+      &#47;&#47; print(&#39;current chunk of stream is ${chunkOfStream.length} bytes long&#39;);
+
+      for (var i = 1; i &lt; chunkOfStream.length; i++) {
+        if (chunkOfStream[i - 1] == 0xff &amp;&amp; chunkOfStream[i] == 0xd8) {
+          startIndex = i - 1;
+        }
+        if (chunkOfStream[i - 1] == 0xff &amp;&amp; chunkOfStream[i] == 0xd9) {
+          endIndex = buffer.length;
+        }
+
+        if (startIndex != -1 &amp;&amp; endIndex != -1) {
+          var frame = buffer.sublist(startIndex, endIndex);
+          if (frameTimer.elapsedMilliseconds &gt; frameDelay) {
+            if (frameCount &gt; 0) {
+              controller.add(frame);
+              print(&#39;framecount $frameCount&#39;);
+              frameTimer.reset();
+            }
+
+            frameCount++;
+          }
+          &#47;&#47; print(frame);
+          startIndex = -1;
+          endIndex = -1;
+          buffer = [];
+        }
+      }
+    }
+  });
+}</code></pre>
+</section>
+
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+  <li><a href="../index.html">theta</a></li>
+  <li><a href="../theta/theta-library.html">theta</a></li>
+  <li class="self-crumb">getLivePreviewOld function</li>
+</ol>
+
+
+    <h5>theta library</h5>
+    <ol>
+  <li class="section-title"><a href="../theta/theta-library.html#classes">Classes</a></li>
+  <li><a href="../theta/Preview-class.html">Preview</a></li>
+  <li><a href="../theta/Sc2Preview-class.html">Sc2Preview</a></li>
+  <li><a href="../theta/ThetaBase-class.html">ThetaBase</a></li>
+
+
+
+  <li class="section-title"><a href="../theta/theta-library.html#constants">Constants</a></li>
+  <li><a href="../theta/emptyBody-constant.html">emptyBody</a></li>
+
+
+  <li class="section-title"><a href="../theta/theta-library.html#functions">Functions</a></li>
+  <li><a href="../theta/checkForIdle.html">checkForIdle</a></li>
+  <li><a href="../theta/command.html">command</a></li>
+  <li><a href="../theta/commandStatus.html">commandStatus</a></li>
+  <li><a href="../theta/getLastFileInfo.html">getLastFileInfo</a></li>
+  <li><a href="../theta/getLastImageUrl.html">getLastImageUrl</a></li>
+  <li><a href="../theta/getLastVideoUrl.html">getLastVideoUrl</a></li>
+  <li><a href="../theta/getLivePreviewOld.html">getLivePreviewOld</a></li>
+  <li><a href="../theta/getSc2Options.html">getSc2Options</a></li>
+  <li><a href="../theta/getZ1Options.html">getZ1Options</a></li>
+  <li><a href="../theta/prettify.html">prettify</a></li>
+  <li><a href="../theta/sc2ThumbGetBytes.html">sc2ThumbGetBytes</a></li>
+  <li><a href="../theta/setOption.html">setOption</a></li>
+  <li><a href="../theta/thumbGetBytes.html">thumbGetBytes</a></li>
+
+
+
+</ol>
+
+  </div><!--/.sidebar-offcanvas-left-->
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div><!--/.sidebar-offcanvas-->
+
+</main>
+
+<footer>
+  <span class="no-break">
+    theta
+      0.3.0
+  </span>
+
+  
+</footer>
+
+
+
+<script src="../static-assets/highlight.pack.js?v1"></script>
+<script src="../static-assets/script.js?v1"></script>
+
+
+
+</body>
+
+</html>
+
