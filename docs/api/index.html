@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, user-scalable=no">
+  <meta name="generator" content="made with love by dartdoc 2.0.0">
+  <meta name="description" content="theta API docs, for the Dart programming language.">
+  <title>theta - Dart API docs</title>
+
+
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  
+  <link rel="stylesheet" href="static-assets/github.css?v1">
+  <link rel="stylesheet" href="static-assets/styles.css?v1">
+  <link rel="icon" href="static-assets/favicon.png?v1">
+
+  
+</head>
+
+
+<body data-base-href=""
+      data-using-base-href="false">
+
+<div id="overlay-under-drawer"></div>
+
+<header id="title">
+  <button id="sidenav-left-toggle" type="button">&nbsp;</button>
+  <ol class="breadcrumbs gt-separated dark hidden-xs">
+    <li><a href="https://community.theta360.guide/t/dart-library-for-ricoh-theta-live-preview-testing/7312?u=craig">theta package</a></li>
+  </ol>
+  <div class="self-name">theta</div>
+  <form class="search navbar-right" role="search">
+    <input type="text" id="search-box" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<main>
+
+
+  <div id="dartdoc-main-content" class="main-content">
+      
+<section class="desc markdown">
+  <h1 id="theta-lib-for-building-api-test-apps">theta lib for building API test apps</h1>
+<p>RICOH THETA API tester built with dio.</p>
+<h2 id="features">Features</h2>
+<ul>
+<li>http post</li>
+<li>http get</li>
+<li>theta commands (osc/commands/execute)</li>
+<li>theta options (osc/commands/execute with payload <code>setOptions</code>)</li>
+<li>get live preview - returns a stream</li>
+</ul>
+<h2 id="getting-started">Getting started</h2><!--
+TODO: List prerequisites and provide or point to information on how to
+start using the package.
+-->
+<p>Works with RICOH THETA Z1 and V.  Some features work with the SC2.</p>
+<h3 id="android">Android</h3>
+<p>Enable use with http instead of the default https only.</p>
+<p><code>project_home/android/app/src/debug/AndroidManifest.xml</code></p>
+<pre class="language-xml"><code class="language-xml">&lt;manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.tpreview_flutter"&gt;
+    &lt;!-- Flutter needs it to communicate with the running application
+         to allow setting breakpoints, to provide hot reload, etc.
+    --&gt;
+    &lt;uses-permission android:name="android.permission.INTERNET"/&gt;
+    &lt;application android:usesCleartextTraffic="true" /&gt;
+&lt;/manifest&gt;
+</code></pre>
+<h2 id="usage">Usage</h2><!-- 
+TODO: Include short and useful examples for package users. Add longer examples
+to `/example` folder. 
+
+```dart
+const like = 'sample';
+``` -->
+<p>Get camera information</p>
+<pre class="language-dart"><code class="language-dart">import 'package:theta/theta.dart';
+String response = await ThetaBase.get('info');
+</code></pre>
+<p>take picture</p>
+<pre class="language-dart"><code class="language-dart">import 'package:theta/theta.dart';
+String response = await command('takePicture');
+</code></pre>
+<p>set option</p>
+<pre class="language-dart"><code class="language-dart">import 'package:theta/theta.dart';
+String response = await setOption(
+    name: 'captureMode', value: 'image');
+</code></pre>
+<p>check command status to see when camera is ready for next command.
+For example, if you use <code>command('takePicture')</code>, you may want to
+wait for the camera to be ready before you issue another command. 
+The SC2 take 8 to 9 seconds to be ready for another command.</p>
+<pre class="language-dart"><code class="language-dart">import 'package:theta/theta.dart' as theta;
+
+while (await theta.commandStatus(id) != 'done') {
+  await theta.commandStatus(id);
+</code></pre>
+<h2 id="additional-information">Additional information</h2><!-- TODO: Tell users more about the package: where to find more information, how to 
+contribute to the package, how to file issues, what response they can expect 
+from the package authors, and more. -->
+<ul>
+<li><a href="https://api.ricoh/docs/theta-web-api-v2.1/">Official RICOH THETA API Reference</a></li>
+</ul>
+<p>Post questions to:</p>
+<ul>
+<li><a href="https://community.theta360.guide">RICOH THETA Developer community</a></li>
+</ul>
+</section>
+
+
+      <section class="summary">
+          <h2>Libraries</h2>
+        <dl>
+          <dt id="theta">
+  <span class="name"><a href="theta/theta-library.html">theta</a></span> 
+
+</dt>
+<dd>Support for RICOH THETA API testing. <a href="theta/theta-library.html">[...]</a>
+</dd>
+
+        </dl>
+      </section>
+
+  </div> <!-- /.main-content -->
+
+  <div id="dartdoc-sidebar-left" class="sidebar sidebar-offcanvas-left">
+    <header id="header-search-sidebar" class="hidden-l">
+  <form class="search-sidebar" role="search">
+    <input type="text" id="search-sidebar" autocomplete="off" disabled class="form-control typeahead" placeholder="Loading search...">
+  </form>
+</header>
+
+<ol class="breadcrumbs gt-separated dark hidden-l" id="sidebar-nav">
+  <li><a href="https://community.theta360.guide/t/dart-library-for-ricoh-theta-live-preview-testing/7312?u=craig">theta package</a></li>
+</ol>
+
+
+    <h5 class="hidden-xs"><span class="package-name">theta</span> <span class="package-kind">package</span></h5>
+    <ol>
+      <li class="section-title">Libraries</li>
+      <li><a href="theta/theta-library.html">theta</a></li>
+</ol>
+
+  </div>
+
+  <div id="dartdoc-sidebar-right" class="sidebar sidebar-offcanvas-right">
+  </div>
+
+</main>
+
+<footer>
+  <span class="no-break">
+    theta
+      0.3.0
+  </span>
+
+  
+</footer>
+
+
+
+<script src="static-assets/highlight.pack.js?v1"></script>
+<script src="static-assets/script.js?v1"></script>
+
+
+
+</body>
+
+</html>
+
